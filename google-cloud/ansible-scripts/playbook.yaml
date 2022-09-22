@@ -1,0 +1,6 @@
+--
+  name: Play 1
+  hosts: localhost
+  tasks:
+    - name: Display the logs
+      command: cat /var/log/auth_log.log

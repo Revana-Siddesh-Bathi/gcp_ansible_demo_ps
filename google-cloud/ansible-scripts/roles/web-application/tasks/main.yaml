@@ -1,0 +1,27 @@
+---
+
+- name: Install python-apt via command module
+  command: apt-get install python3-apt -y
+
+- name: Install apache on instances
+  apt: name=apache2 update_cache=yes state=present
+
+- name: copy my index html
+  copy: src=index.html dest=/var/www/html/index.html
+
+- name: Keep the service started
+  service:
+    name: apache2
+    state: started
+
+- name:  Check the application log update
+  command: cat /var/log/apache2/access.log
+  debugger: on_failed
+
+- name: Check the auth log status
+  command: grep 'session opened' /var/log/auth.log
+  register: auth_log_status
+
+- name: Status of the log update status
+  debug: msg="{{ auth_log_status.stdout }}"
+
